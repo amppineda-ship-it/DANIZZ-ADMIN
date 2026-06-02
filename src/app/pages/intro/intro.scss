@@ -1,0 +1,207 @@
+.welcome-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.background-image {
+  position: absolute;
+  inset: 0;
+
+  background-image: url('/assets/Intro.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  filter: brightness(.85);
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+  height: 100vh;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 80px;
+}
+
+.left-content {
+  max-width: 650px;
+}
+
+.right-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-right: 120px; /* Ajusta este valor */
+}
+
+.left-content {
+  flex: 1;
+  max-width: 650px;
+}
+
+.right-content {
+  flex: 0 0 380px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.subtitle {
+  display: block;
+
+  color: white;
+
+  font-size: 1.4rem;
+  font-weight: 700;
+
+  letter-spacing: 3px;
+
+  margin-bottom: 15px;
+}
+
+.title-main {
+  margin: 0;
+
+  font-size: clamp(5rem, 8vw, 8rem);
+
+  color: white;
+
+  font-weight: 900;
+
+  line-height: .9;
+
+  text-shadow: 0 4px 20px rgba(0,0,0,.25);
+}
+
+.title-secondary {
+  margin: 0;
+
+  font-size: clamp(4rem, 7vw, 7rem);
+
+  color: #2563EB;
+
+  font-weight: 900;
+
+  line-height: .9;
+
+  text-shadow: 0 4px 20px rgba(0,0,0,.25);
+}
+
+.title-third {
+  margin-top: 10px;
+
+  font-size: 2.2rem;
+
+  color: white;
+
+  font-weight: 600;
+}
+
+.line {
+  width: 80px;
+  height: 5px;
+
+  background: #E11D74;
+
+  border-radius: 20px;
+
+  margin: 30px 0;
+}
+
+.description {
+  color: white;
+
+  font-size: 1.4rem;
+
+  line-height: 1.6;
+
+  font-weight: 500;
+}
+
+.right-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.glass-card {
+  width: 380px;
+
+  padding: 35px;
+
+  border-radius: 24px;
+
+  background: rgba(255,255,255,.15);
+
+  backdrop-filter: blur(15px);
+
+  border: 1px solid rgba(255,255,255,.2);
+
+  text-align: center;
+
+  box-shadow: 0 8px 30px rgba(0,0,0,.15);
+}
+
+.message {
+  color: white;
+
+  font-size: 1.5rem;
+
+  font-weight: 600;
+
+  line-height: 1.5;
+
+  margin-bottom: 30px;
+}
+
+.start-btn {
+  width: 100%;
+  height: 60px;
+
+  border-radius: 18px !important;
+
+  background: #2563EB !important;
+
+  color: white !important;
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.start-btn:hover {
+  transform: translateY(-2px);
+  transition: .3s ease;
+}
+
+@media (max-width: 900px) {
+
+  .content {
+    flex-direction: column;
+    justify-content: center;
+
+    text-align: center;
+
+    gap: 50px;
+
+    padding: 30px;
+  }
+
+  .glass-card {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .line {
+    margin: 25px auto;
+  }
+}

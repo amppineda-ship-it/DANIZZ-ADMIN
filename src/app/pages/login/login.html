@@ -1,0 +1,107 @@
+<div class="login-container">
+
+  <!-- PANEL IZQUIERDO -->
+  <div class="left-panel">
+
+    <div class="top-text">
+      <h1>DANIZZ DISEÑOS PERSONALIZADOS</h1>
+    </div>
+
+    <div class="center-logo">
+      <img src="assets/Logo.png" alt="Logo Danizz">
+    </div>
+
+    <div class="bottom-text">
+      <p>Franqueza visual, libertad creativa.</p>
+    </div>
+
+  </div>
+
+  <!-- PANEL DERECHO -->
+  <div class="right-panel">
+
+    <div class="login-card">
+
+      <div class="header-titles">
+
+        <h2>DANIZZ</h2>
+
+        <h1>Sublimados</h1>
+
+      </div>
+
+      <form>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Usuario</mat-label>
+
+          <mat-icon matPrefix>
+            person
+          </mat-icon>
+
+          <input
+            matInput
+            placeholder="Ingrese su usuario">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+
+          <mat-label>Contraseña</mat-label>
+
+          <mat-icon matPrefix>
+            lock
+          </mat-icon>
+
+          <input
+            matInput
+            [type]="hidePassword() ? 'password' : 'text'">
+
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="togglePassword()">
+
+            <mat-icon>
+              {{ hidePassword() ? 'visibility_off' : 'visibility' }}
+            </mat-icon>
+
+          </button>
+
+        </mat-form-field>
+
+        <div class="options">
+
+          <mat-checkbox>
+            Recordar
+          </mat-checkbox>
+
+          <a href="#">
+            ¿Olvidó su contraseña?
+          </a>
+
+        </div>
+
+        <button
+          mat-raised-button
+          class="login-btn">
+
+          Iniciar Sesión
+
+          <mat-icon>
+            login
+          </mat-icon>
+
+        </button>
+
+      </form>
+
+      <div class="footer-text">
+        <p>Mateo Pineda - 2026</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
