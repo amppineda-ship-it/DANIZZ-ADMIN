@@ -1,0 +1,137 @@
+<div class="login-layout">
+
+  <!-- Lado izquierdo -->
+  <div class="brand-section">
+    <div class="brand-content">
+      <h1 class="brand-title">
+        DANIZZ: DISEÑOS <br>
+        & SUBLIMADOS
+      </h1>
+
+      <p class="brand-subtitle">
+        Únete a nuestra plataforma
+        <span class="brand-accent"></span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Lado derecho -->
+  <div class="login-section">
+
+    <div class="login-card">
+
+      <h2 class="form-title">
+        CREAR CUENTA
+      </h2>
+
+      <form
+        [formGroup]="registerForm"
+        (ngSubmit)="registrar()">
+
+        <!-- Fila -->
+        <div class="row">
+
+          <div class="input-group">
+            <label>Nombre</label>
+
+            <input
+              type="text"
+              formControlName="nombre"
+              placeholder="Nombre">
+          </div>
+
+          <div class="input-group">
+            <label>Apellido</label>
+
+            <input
+              type="text"
+              formControlName="apellido"
+              placeholder="Apellido">
+          </div>
+
+        </div>
+
+        <!-- Correo -->
+
+        <div class="input-group">
+
+          <label>Correo electrónico</label>
+
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="correo@ejemplo.com">
+
+        </div>
+
+        <!-- Teléfono -->
+
+        <div class="input-group">
+
+          <label>Teléfono</label>
+
+          <input
+            type="text"
+            formControlName="telefono"
+            placeholder="0999999999">
+
+        </div>
+
+        <!-- Contraseña -->
+
+        <div class="input-group">
+
+          <label>Contraseña</label>
+
+          <input
+            type="password"
+            formControlName="password"
+            placeholder="********">
+
+        </div>
+
+        <!-- Confirmar -->
+
+        <div class="input-group">
+
+          <label>Confirmar contraseña</label>
+
+          <input
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="********">
+
+        </div>
+
+        <button
+          class="btn-submit"
+          type="submit">
+
+          REGISTRARSE
+
+        </button>
+
+      </form>
+
+      <div class="register-section">
+
+        <span>
+          ¿Ya tienes una cuenta?
+        </span>
+
+        <button
+          routerLink="/login"
+          class="btn-register"
+          type="button">
+
+          Iniciar sesión
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

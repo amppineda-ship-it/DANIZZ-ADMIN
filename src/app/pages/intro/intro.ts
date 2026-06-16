@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './intro.html',
   styleUrl: './intro.scss'
 })
-export class Intro {
+export class IntroComponent {
 
   constructor(private router: Router) {}
 

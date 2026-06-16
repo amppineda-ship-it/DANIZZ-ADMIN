@@ -1,34 +1,54 @@
-import { Component, signal } from '@angular/core';
-
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-login',
-
   standalone: true,
-
   imports: [
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCheckboxModule,
-    MatFormFieldModule
+    CommonModule,
+    ReactiveFormsModule,
+    MatProgressSpinnerModule,
+    RouterLink,
   ],
-
   templateUrl: './login.html',
-  styleUrl: './login.scss'
+  styleUrls: ['./login.scss'],
 })
+export class LoginComponent implements OnInit {
+  loginForm!: FormGroup;
+  hidePassword = true;
+  isLoading = false;
+  errorMessage = '';
 
-export class Login {
+  constructor(private fb: FormBuilder, private router: Router) {}
 
-  hidePassword = signal(true);
-
-  togglePassword(){
-    this.hidePassword.update(v => !v);
+  ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      remember: [false],
+    });
   }
 
+  togglePassword(): void {
+    this.hidePassword = !this.hidePassword;
+  }
+
+  onSubmit(): void {
+    if (this.loginForm.invalid) return;
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    setTimeout(() => {
+      this.isLoading = false;
+      const { email, password } = this.loginForm.value;
+      if (email === 'admin@danizz.com' && password === '123456') {
+        this.router.navigate(['/dashboard']);
+      } else {
+        this.errorMessage = 'Usuario o contraseña incorrectos.';
+      }
+    }, 1500);
+  }
 }

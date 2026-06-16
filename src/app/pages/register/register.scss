@@ -1,0 +1,304 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+$primary: #0a3a6b;
+$secondary: #d11265;
+$white: #ffffff;
+$border: #dcdcdc;
+$text: #1d1b20;
+
+* {
+  box-sizing: border-box;
+}
+
+.login-layout {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* ===========================
+   PANEL IZQUIERDO
+=========================== */
+
+.brand-section {
+  flex: 1;
+  background: url('/assets/Intro.png') center center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  padding-left: 80px;
+  color: white;
+}
+
+.brand-content {
+  max-width: 550px;
+}
+
+.brand-title {
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1.05;
+  margin-bottom: 20px;
+  text-shadow: 0 5px 15px rgba(0,0,0,.4);
+}
+
+.brand-subtitle {
+  position: relative;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  display: inline-block;
+  padding-bottom: 12px;
+}
+
+.brand-accent {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 45px;
+  height: 4px;
+  background: $secondary;
+  border-radius: 20px;
+}
+
+/* ===========================
+   PANEL DERECHO
+=========================== */
+
+.login-section {
+
+  width: 520px;
+
+  background: rgba(255, 255, 255, 0.88);
+
+  backdrop-filter: blur(12px);
+
+  -webkit-backdrop-filter: blur(12px);
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding: 30px;
+
+}
+
+.login-card {
+
+  width: 100%;
+  max-width: 430px;
+
+  background: white;
+
+  border-radius: 22px;
+
+  padding: 35px;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,.12);
+
+  animation: aparecer .8s cubic-bezier(.25,.8,.25,1);
+
+}
+.form-title {
+
+  text-align: center;
+
+  margin-bottom: 30px;
+
+  font-size: 24px;
+
+  color: $primary;
+
+  font-weight: 700;
+}
+
+/* ===========================
+   GRID
+=========================== */
+
+.row {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 15px;
+}
+
+/* ===========================
+   INPUTS
+=========================== */
+
+.input-group {
+
+  margin-bottom: 18px;
+}
+
+.input-group label {
+
+  display: block;
+
+  margin-bottom: 6px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  color: #555;
+}
+
+.input-group input {
+
+  width: 100%;
+
+  padding: 14px;
+
+  border-radius: 10px;
+
+  border: 1px solid $border;
+
+  outline: none;
+
+  transition: .25s;
+
+  font-size: 14px;
+}
+
+.input-group input:focus {
+
+  border-color: $primary;
+
+  box-shadow: 0 0 0 3px rgba(10,58,107,.15);
+}
+
+/* ===========================
+   BOTÓN
+=========================== */
+
+.btn-submit {
+
+  width: 100%;
+
+  margin-top: 10px;
+
+  padding: 14px;
+
+  border: none;
+
+  border-radius: 50px;
+
+    background: linear-gradient(135deg, #0a3a6b, #0d5ea5);
+  color: white;
+
+  font-size: 15px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: .25s;
+}
+
+.btn-submit:hover {
+
+  transform: translateY(-2px);
+
+  background: #0d4f91;
+}
+
+/* ===========================
+   LOGIN
+=========================== */
+
+.register-section {
+
+  margin-top: 25px;
+
+  text-align: center;
+}
+
+.register-section span {
+
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: #666;
+}
+
+.btn-register {
+
+  width: 100%;
+
+  padding: 13px;
+
+  border-radius: 50px;
+
+  border: 2px solid $primary;
+
+  background: transparent;
+
+  color: $primary;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: .25s;
+}
+
+.btn-register:hover {
+
+  background: $primary;
+
+  color: white;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media(max-width:900px){
+
+  .login-layout{
+
+    flex-direction: column;
+  }
+
+  .brand-section{
+
+    display:none;
+  }
+
+  .login-section{
+
+    width:100%;
+  }
+
+  .row{
+
+    grid-template-columns:1fr;
+  }
+
+}
+@keyframes aparecer {
+
+  from {
+
+    opacity: 0;
+
+    transform: translateY(30px);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform: translateY(0);
+
+  }
+
+}
