@@ -1,163 +1,282 @@
-<div class="dashboard-container">
+<div class="dashboard-shell">
+  <input id="drawer-toggle" class="drawer-toggle" type="checkbox" aria-hidden="true" />
+  <label class="drawer-backdrop" for="drawer-toggle" aria-label="Cerrar menu"></label>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-
-    <div class="logo">
-      <h2>DANIZZ</h2>
-      <span>ADMIN</span>
+  <aside class="drawer" aria-label="Menu principal">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">D</div>
+      <div>
+        <strong>DANIZZ</strong>
+        <span>Admin</span>
+      </div>
     </div>
 
-    <nav>
+    <nav class="drawer-nav">
+      <section class="nav-group" aria-labelledby="nav-main">
+        <h2 id="nav-main">Principal</h2>
+        <a class="nav-item active" href="#" aria-current="page">
+          <span class="material-icons" aria-hidden="true">dashboard</span>
+          <span>Dashboard</span>
+        </a>
+      </section>
 
-      <a href="#">🏠 Dashboard</a>
+      <section class="nav-group" aria-labelledby="nav-operation">
+        <h2 id="nav-operation">Operacion</h2>
+        <a class="nav-item" href="#">
+          <span class="material-icons" aria-hidden="true">inventory_2</span>
+          <span>Productos</span>
+        </a>
+        <a class="nav-item" href="#">
+          <span class="material-icons" aria-hidden="true">warehouse</span>
+          <span>Inventario</span>
+        </a>
+        <a class="nav-item" href="#">
+          <span class="material-icons" aria-hidden="true">shopping_bag</span>
+          <span>Pedidos</span>
+          <small>5</small>
+        </a>
+      </section>
 
-      <a href="#">📦 Productos</a>
+      <section class="nav-group" aria-labelledby="nav-commerce">
+        <h2 id="nav-commerce">Comercial</h2>
+        <a class="nav-item" href="#">
+          <span class="material-icons" aria-hidden="true">groups</span>
+          <span>Clientes</span>
+        </a>
+        <a class="nav-item" href="#">
+          <span class="material-icons" aria-hidden="true">payments</span>
+          <span>Ventas</span>
+        </a>
+      </section>
 
-      <a href="#">👥 Clientes</a>
-
-      <a href="#">📋 Inventario</a>
-
-      <a href="#">🛒 Pedidos</a>
-
-      <a href="#">💰 Ventas</a>
-
-      <a href="#">📊 Reportes</a>
-
-      <a href="#">⚙ Configuración</a>
-
+      <section class="nav-group" aria-labelledby="nav-analysis">
+        <h2 id="nav-analysis">Analisis</h2>
+        <a class="nav-item" href="#">
+          <span class="material-icons" aria-hidden="true">bar_chart</span>
+          <span>Reportes</span>
+        </a>
+      </section>
     </nav>
 
+    <div class="drawer-footer">
+      <a class="nav-item" href="#">
+        <span class="material-icons" aria-hidden="true">settings</span>
+        <span>Configuracion</span>
+      </a>
+    </div>
   </aside>
 
-  <!-- CONTENIDO -->
-  <main class="main-content">
-
-    <!-- HEADER -->
-    <header class="header">
-
-      <div>
-
-        <h1>Panel Administrativo</h1>
-
+  <div class="workspace">
+    <header class="appbar">
+      <div class="appbar-left">
+        <label class="icon-button menu-button" for="drawer-toggle" aria-label="Abrir menu">
+          <span class="material-icons" aria-hidden="true">menu</span>
+        </label>
+        <div>
+          <p class="eyebrow">Dashboard</p>
+          <h1>Panel administrativo</h1>
+        </div>
       </div>
 
-      <div class="header-right">
-
-        <button class="notification">
-
-          🔔
-
+      <div class="appbar-actions">
+        <button class="icon-button" type="button" aria-label="Buscar">
+          <span class="material-icons" aria-hidden="true">search</span>
         </button>
-
-        <span class="admin-name">
-
-          Administrador
-
-        </span>
-
-        <button class="logout">
-
-          Cerrar sesión
-
+        <button class="icon-button" type="button" aria-label="Ver notificaciones">
+          <span class="material-icons" aria-hidden="true">notifications</span>
+          <span class="notification-dot" aria-hidden="true"></span>
         </button>
-
+        <button class="profile-button" type="button" aria-label="Abrir perfil">
+          <span class="avatar" aria-hidden="true">A</span>
+          <span>Administrador</span>
+        </button>
       </div>
-
     </header>
 
-    <!-- TARJETAS -->
-    <section class="cards">
+    <main class="dashboard-content">
+      <section class="panel overview-panel" aria-labelledby="overview-title">
+        <div class="panel-heading overview-heading">
+          <div>
+            <p class="eyebrow">Resumen ejecutivo</p>
+            <h2 id="overview-title">Estado general de la tienda</h2>
+            <p class="panel-copy">
+              Indicadores clave, pedidos recientes y prioridades operativas en una vista mas clara.
+            </p>
+          </div>
 
-      <div class="card">
+          <div class="overview-actions">
+            <button class="primary-action" type="button">
+              <span class="material-icons" aria-hidden="true">add</span>
+              Nuevo pedido
+            </button>
+            <button class="secondary-action" type="button">
+              <span class="material-icons" aria-hidden="true">file_download</span>
+              Exportar
+            </button>
+          </div>
+        </div>
 
-        <h3>Productos</h3>
+        <div class="metrics-grid" aria-label="Indicadores principales">
+          <article class="metric-card">
+            <span class="metric-icon blue">
+              <span class="material-icons" aria-hidden="true">inventory_2</span>
+            </span>
+            <div>
+              <h3>Productos</h3>
+              <strong>120</strong>
+              <p>18 con stock bajo</p>
+            </div>
+            <span class="trend positive">+12%</span>
+          </article>
 
-        <p>120</p>
+          <article class="metric-card">
+            <span class="metric-icon green">
+              <span class="material-icons" aria-hidden="true">groups</span>
+            </span>
+            <div>
+              <h3>Clientes</h3>
+              <strong>85</strong>
+              <p>11 nuevos este mes</p>
+            </div>
+            <span class="trend positive">+8%</span>
+          </article>
 
-      </div>
+          <article class="metric-card">
+            <span class="metric-icon amber">
+              <span class="material-icons" aria-hidden="true">shopping_bag</span>
+            </span>
+            <div>
+              <h3>Pedidos</h3>
+              <strong>25</strong>
+              <p>5 requieren seguimiento</p>
+            </div>
+            <span class="trend warning">Pendiente</span>
+          </article>
 
-      <div class="card">
+          <article class="metric-card">
+            <span class="metric-icon rose">
+              <span class="material-icons" aria-hidden="true">payments</span>
+            </span>
+            <div>
+              <h3>Ventas</h3>
+              <strong>$4.500</strong>
+              <p>Ingresos del mes</p>
+            </div>
+            <span class="trend positive">+18%</span>
+          </article>
+        </div>
+      </section>
 
-        <h3>Clientes</h3>
+      <section class="work-panels">
+        <article class="panel orders-panel" aria-labelledby="orders-title">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Operacion</p>
+              <h2 id="orders-title">Ultimos pedidos</h2>
+            </div>
+            <button class="secondary-action compact" type="button">
+              <span class="material-icons" aria-hidden="true">tune</span>
+              Filtrar
+            </button>
+          </div>
 
-        <p>85</p>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Cliente</th>
+                  <th>Producto</th>
+                  <th>Estado</th>
+                  <th>Accion</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#001</td>
+                  <td>Juan Perez</td>
+                  <td>Taza personalizada</td>
+                  <td><span class="status delivered">Entregado</span></td>
+                  <td><button class="text-action" type="button">Ver</button></td>
+                </tr>
+                <tr>
+                  <td>#002</td>
+                  <td>Maria Lopez</td>
+                  <td>Camiseta sublimada</td>
+                  <td><span class="status pending">Pendiente</span></td>
+                  <td><button class="text-action" type="button">Ver</button></td>
+                </tr>
+                <tr>
+                  <td>#003</td>
+                  <td>Carlos Ruiz</td>
+                  <td>Termo grabado</td>
+                  <td><span class="status processing">En proceso</span></td>
+                  <td><button class="text-action" type="button">Ver</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
 
-      </div>
+        <aside class="side-panels">
+          <article class="panel priority-panel" aria-labelledby="priority-title">
+            <div class="panel-heading compact-heading">
+              <div>
+                <p class="eyebrow">Prioridades</p>
+                <h2 id="priority-title">Atencion de hoy</h2>
+              </div>
+            </div>
 
-      <div class="card">
+            <div class="priority-list">
+              <div class="priority-item">
+                <span class="priority-dot warning-dot"></span>
+                <div>
+                  <strong>Stock bajo</strong>
+                  <p>18 productos necesitan revision.</p>
+                </div>
+              </div>
+              <div class="priority-item">
+                <span class="priority-dot info-dot"></span>
+                <div>
+                  <strong>Pedidos pendientes</strong>
+                  <p>5 pedidos esperan confirmacion.</p>
+                </div>
+              </div>
+              <div class="priority-item">
+                <span class="priority-dot success-dot"></span>
+                <div>
+                  <strong>Entregas listas</strong>
+                  <p>7 pedidos pueden despacharse.</p>
+                </div>
+              </div>
+            </div>
+          </article>
 
-        <h3>Pedidos</h3>
+          <article class="panel quick-panel" aria-labelledby="quick-title">
+            <div class="panel-heading compact-heading">
+              <div>
+                <p class="eyebrow">Acciones</p>
+                <h2 id="quick-title">Tareas frecuentes</h2>
+              </div>
+            </div>
 
-        <p>25</p>
-
-      </div>
-
-      <div class="card">
-
-        <h3>Ventas</h3>
-
-        <p>$4.500</p>
-
-      </div>
-
-    </section>
-
-    <!-- TABLA -->
-    <section class="table-section">
-
-      <h2>Últimos pedidos</h2>
-
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th>ID</th>
-
-            <th>Cliente</th>
-
-            <th>Producto</th>
-
-            <th>Estado</th>
-
-          </tr>
-
-        </thead>
-
-        <tbody>
-
-          <tr>
-
-            <td>1</td>
-
-            <td>Juan Pérez</td>
-
-            <td>Taza personalizada</td>
-
-            <td>Entregado</td>
-
-          </tr>
-
-          <tr>
-
-            <td>2</td>
-
-            <td>María López</td>
-
-            <td>Camiseta sublimada</td>
-
-            <td>Pendiente</td>
-
-          </tr>
-
-        </tbody>
-
-      </table>
-
-    </section>
-
-  </main>
-
+            <div class="quick-grid">
+              <button class="quick-action" type="button">
+                <span class="material-icons" aria-hidden="true">add_box</span>
+                Producto
+              </button>
+              <button class="quick-action" type="button">
+                <span class="material-icons" aria-hidden="true">receipt_long</span>
+                Pedido
+              </button>
+              <button class="quick-action" type="button">
+                <span class="material-icons" aria-hidden="true">query_stats</span>
+                Reporte
+              </button>
+            </div>
+          </article>
+        </aside>
+      </section>
+    </main>
+  </div>
 </div>
