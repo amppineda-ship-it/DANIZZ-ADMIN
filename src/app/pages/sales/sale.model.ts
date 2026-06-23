@@ -1,0 +1,3 @@
+export type SaleStatus='borrador'|'emitida'|'pagada'|'anulada'; export type PaymentMethod='efectivo'|'tarjeta'|'transferencia'|'credito';
+export interface Sale { readonly id:string; readonly invoiceNumber:string; readonly orderNumber:string; readonly customer:string; readonly customerDocument:string; readonly issueDate:string; readonly dueDate:string; readonly paymentMethod:PaymentMethod; readonly status:SaleStatus; readonly description:string; readonly quantity:number; readonly unitPrice:number; readonly subtotal:number; readonly discount:number; readonly taxRate?:number; readonly tax:number; readonly total:number; readonly notes:string; readonly updatedAt:string; }
+export type SaleDraft=Omit<Sale,'id'|'updatedAt'|'subtotal'|'tax'|'total'>;

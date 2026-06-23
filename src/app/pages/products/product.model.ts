@@ -1,0 +1,2 @@
+export interface Product { readonly id:string; readonly sku:string; readonly name:string; readonly description:string; readonly category:string; readonly salePrice:number; readonly cost:number; readonly taxRate:number; readonly unit:string; readonly barcode:string; readonly supplier:string; readonly active:boolean; readonly createdAt:string; readonly updatedAt:string; }
+export type ProductDraft = Omit<Product,'id'|'createdAt'|'updatedAt'>;

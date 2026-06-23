@@ -1,0 +1,6 @@
+import { Injectable } from '@angular/core'; import { LocalRepository } from '../shared/local-repository'; import { Sale, SaleDraft } from './sale.model';
+const INITIAL:Sale[]=[
+ {id:'s1',invoiceNumber:'FAC-001-001-000000001',orderNumber:'PED-001',customer:'Juan Pérez',customerDocument:'0912345678',issueDate:'2026-06-18',dueDate:'2026-06-18',paymentMethod:'transferencia',status:'pagada',description:'Tazas personalizadas',quantity:12,unitPrice:8.5,subtotal:102,discount:5,taxRate:15,tax:14.55,total:111.55,notes:'Pago confirmado',updatedAt:'2026-06-18T15:00:00Z'},
+ {id:'s2',invoiceNumber:'FAC-001-001-000000002',orderNumber:'PED-002',customer:'Eventos ML S.A.',customerDocument:'0991234567001',issueDate:'2026-06-19',dueDate:'2026-07-04',paymentMethod:'credito',status:'emitida',description:'Camisetas sublimadas',quantity:20,unitPrice:16,subtotal:320,discount:20,taxRate:15,tax:45,total:345,notes:'Crédito 15 días',updatedAt:'2026-06-19T12:00:00Z'}
+];
+@Injectable({providedIn:'root'}) export class SaleRepository extends LocalRepository<Sale>{constructor(){super('danizz.sales',INITIAL)}save(d:SaleDraft,id?:string){const subtotal=d.quantity*d.unitPrice,tax=Math.max(0,subtotal-d.discount)*((d.taxRate??15)/100),total=subtotal-d.discount+tax;this.upsert({...d,id:id??crypto.randomUUID(),subtotal,tax,total,updatedAt:new Date().toISOString()})}}

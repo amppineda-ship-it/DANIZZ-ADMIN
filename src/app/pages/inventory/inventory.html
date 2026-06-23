@@ -1,0 +1,66 @@
+<main class="inventory-page">
+  @if (message()) { <div class="toast success" role="status"><span class="material-icons">check_circle</span>{{ message() }}</div> }
+  @if (error() && !editorOpen() && !movementOpen()) { <div class="toast error" role="alert">{{ error() }}</div> }
+
+  <section class="hero">
+    <div><p class="eyebrow">Control de existencias</p><h2>Inventario</h2><p>Administra niveles de stock, ubicaciones y movimientos de tus productos.</p></div>
+    <div class="hero-actions"><button class="secondary" type="button" (click)="exportCsv()"><span class="material-icons">download</span>Exportar CSV</button><button class="primary" type="button" (click)="openCreate()"><span class="material-icons">add</span>Nuevo producto</button></div>
+  </section>
+
+  <section class="summary-grid" aria-label="Resumen de inventario">
+    <article class="summary-card"><span class="summary-icon blue material-icons">inventory_2</span><div><span>Referencias</span><strong>{{ repository.items().length }}</strong><small>Productos registrados</small></div></article>
+    <article class="summary-card"><span class="summary-icon green material-icons">stacked_bar_chart</span><div><span>Existencias</span><strong>{{ totalUnits() }}</strong><small>Unidades totales</small></div></article>
+    <article class="summary-card"><span class="summary-icon amber material-icons">warning</span><div><span>Stock bajo</span><strong>{{ lowStockCount() }}</strong><small>Requieren reposición</small></div></article>
+    <article class="summary-card"><span class="summary-icon red material-icons">remove_shopping_cart</span><div><span>Agotados</span><strong>{{ outOfStockCount() }}</strong><small>Sin existencias</small></div></article>
+  </section>
+
+  <section class="panel">
+    <div class="toolbar">
+      <label class="search"><span class="material-icons">search</span><input type="search" placeholder="Buscar por producto, SKU o ubicación" [value]="search()" (input)="setSearch($event)" /></label>
+      <select aria-label="Filtrar por categoría" [value]="category()" (change)="setCategory($event)"><option value="all">Todas las categorías</option>@for (item of categories(); track item) { <option [value]="item">{{ item }}</option> }</select>
+      <select aria-label="Filtrar por estado" [value]="status()" (change)="setStatus($event)"><option value="all">Todos los estados</option><option value="ok">Disponible</option><option value="low">Stock bajo</option><option value="out">Agotado</option></select>
+      @if (search() || category() !== 'all' || status() !== 'all') { <button class="clear" type="button" (click)="clearFilters()">Limpiar</button> }
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Producto</th><th>Categoría</th><th>Ubicación</th><th>Existencias</th><th>Estado</th><th>Actualizado</th><th><span class="sr-only">Acciones</span></th></tr></thead>
+        <tbody>
+          @for (item of filteredItems(); track item.id) {
+            <tr><td><div class="product"><span class="product-avatar">{{ item.name.charAt(0) }}</span><div><strong>{{ item.name }}</strong><small>{{ item.sku }}</small></div></div></td><td>{{ item.category }}</td><td><span class="location"><span class="material-icons">location_on</span>{{ item.location }}</span></td><td><strong>{{ item.stock }}</strong> <span class="muted">{{ item.unit }}</span><small class="minimum">Mín. {{ item.minimumStock }}</small></td><td><span class="status" [class]="'status '+getStatus(item)"><span class="dot"></span>{{ statusLabels[getStatus(item)] }}</span></td><td>{{ item.updatedAt | date:'dd/MM/yyyy, HH:mm' }}</td><td><div class="row-actions"><button type="button" title="Registrar movimiento" (click)="openMovement(item)"><span class="material-icons">swap_vert</span></button><button type="button" title="Editar" (click)="openEdit(item)"><span class="material-icons">edit</span></button><button class="danger" type="button" title="Eliminar" (click)="deleteItem(item)"><span class="material-icons">delete</span></button></div></td></tr>
+          } @empty {
+            <tr><td colspan="7"><div class="empty"><span class="material-icons">inventory_2</span><strong>No encontramos productos</strong><p>Prueba cambiando los filtros o agrega una nueva referencia.</p></div></td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <footer class="table-footer">Mostrando <strong>{{ filteredItems().length }}</strong> de {{ repository.items().length }} referencias</footer>
+  </section>
+
+  <section class="panel movements">
+    <div class="section-heading"><div><p class="eyebrow">Trazabilidad</p><h3>Movimientos recientes</h3></div></div>
+    @if (recentMovements().length) {
+      <div class="movement-list">@for (movement of recentMovements(); track movement.id) { <article><span class="movement-icon material-icons" [class]="movement.type">{{ movement.type === 'entry' ? 'south' : movement.type === 'exit' ? 'north' : 'sync_alt' }}</span><div><strong>{{ movement.itemName }}</strong><p>{{ movement.reason }}</p></div><div class="movement-result"><strong>{{ movement.previousStock }} → {{ movement.resultingStock }}</strong><small>{{ movement.createdAt | date:'dd/MM/yyyy, HH:mm' }}</small></div></article> }</div>
+    } @else { <p class="no-movements">Los movimientos de inventario aparecerán aquí.</p> }
+  </section>
+</main>
+
+@if (editorOpen()) {
+  <div class="modal-backdrop" (click)="closeEditor()"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="item-title" (click)="$event.stopPropagation()">
+    <header><div><p class="eyebrow">Inventario</p><h3 id="item-title">{{ editingId() ? 'Editar producto' : 'Nuevo producto' }}</h3></div><button type="button" aria-label="Cerrar" (click)="closeEditor()"><span class="material-icons">close</span></button></header>
+    <form [formGroup]="itemForm" (ngSubmit)="saveItem()"><div class="form-grid">
+      <label class="wide">Nombre del producto<input formControlName="name" placeholder="Ej. Taza blanca para sublimación" />@if(itemForm.controls.name.touched && itemForm.controls.name.invalid){<small>El nombre es obligatorio.</small>}</label>
+      <label>SKU<input formControlName="sku" placeholder="TAZ-001" />@if(itemForm.controls.sku.touched && itemForm.controls.sku.invalid){<small>El SKU es obligatorio.</small>}</label>
+      <label>Categoría<input formControlName="category" list="category-list" placeholder="Tazas" /><datalist id="category-list">@for(item of categories();track item){<option [value]="item"></option>}</datalist></label>
+      <label>Ubicación<input formControlName="location" placeholder="A-01" /></label><label>Unidad<select formControlName="unit"><option value="unidades">Unidades</option><option value="metros">Metros</option><option value="paquetes">Paquetes</option><option value="kilogramos">Kilogramos</option></select></label>
+      <label>Stock actual<input type="number" min="0" formControlName="stock" /></label><label>Stock mínimo<input type="number" min="0" formControlName="minimumStock" /></label>
+    </div>@if(error()){<p class="form-error">{{ error() }}</p>}<footer><button class="secondary" type="button" (click)="closeEditor()">Cancelar</button><button class="primary" type="submit">Guardar producto</button></footer></form>
+  </section></div>
+}
+
+@if (movementOpen() && selectedItem(); as item) {
+  <div class="modal-backdrop" (click)="closeMovement()"><section class="modal small-modal" role="dialog" aria-modal="true" aria-labelledby="movement-title" (click)="$event.stopPropagation()">
+    <header><div><p class="eyebrow">{{ item.sku }} · Stock actual: {{ item.stock }}</p><h3 id="movement-title">Registrar movimiento</h3></div><button type="button" aria-label="Cerrar" (click)="closeMovement()"><span class="material-icons">close</span></button></header>
+    <form [formGroup]="movementForm" (ngSubmit)="saveMovement()"><div class="form-grid one-column"><label>Tipo<select formControlName="type">@for(type of movementTypes;track type.value){<option [value]="type.value">{{ type.label }}</option>}</select></label><label>{{ movementForm.controls.type.value === 'adjustment' ? 'Nuevo stock' : 'Cantidad' }}<input type="number" min="0" formControlName="quantity" /></label><label>Motivo<textarea rows="3" formControlName="reason" placeholder="Describe el motivo del movimiento"></textarea>@if(movementForm.controls.reason.touched && movementForm.controls.reason.invalid){<small>El motivo es obligatorio.</small>}</label></div>@if(error()){<p class="form-error">{{ error() }}</p>}<footer><button class="secondary" type="button" (click)="closeMovement()">Cancelar</button><button class="primary" type="submit">Registrar</button></footer></form>
+  </section></div>
+}

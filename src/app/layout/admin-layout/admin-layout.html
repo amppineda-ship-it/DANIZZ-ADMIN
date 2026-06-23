@@ -1,0 +1,25 @@
+<div class="admin-shell">
+  @if (drawerOpen()) { <button class="drawer-backdrop" type="button" aria-label="Cerrar menú" (click)="toggleDrawer()"></button> }
+  <aside class="drawer" [class.open]="drawerOpen()" aria-label="Menú principal">
+    <a class="brand" routerLink="/dashboard" aria-label="Ir al dashboard"><span class="brand-mark">D</span><span><strong>DANIZZ</strong><small>Admin</small></span></a>
+    <nav class="drawer-nav">
+      @for (group of menuGroups; track group.label) {
+        <section class="nav-group"><h2>{{ group.label }}</h2>
+          @for (item of group.items; track item.route) {
+            <a class="nav-item" [routerLink]="item.route" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              <span class="material-icons">{{ item.icon }}</span><span>{{ item.label }}</span>
+              @if (item.badge) { <small>{{ item.badge }}</small> }
+            </a>
+          }
+        </section>
+      }
+    </nav>
+    <div class="drawer-footer"><a class="nav-item" [routerLink]="settingsItem.route" routerLinkActive="active"><span class="material-icons">{{ settingsItem.icon }}</span><span>{{ settingsItem.label }}</span></a></div>
+  </aside>
+  <div class="workspace">
+    <header class="appbar"><div class="appbar-left"><button class="icon-button menu-button" type="button" aria-label="Abrir menú" (click)="toggleDrawer()"><span class="material-icons">menu</span></button><div><p class="eyebrow">{{ pageSection() }}</p><h1>{{ pageTitle() }}</h1></div></div>
+      <div class="appbar-actions"><button class="icon-button" type="button" aria-label="Ver notificaciones"><span class="material-icons">notifications</span><span class="notification-dot"></span></button><button class="profile-button" type="button"><span class="avatar">A</span><span>Administrador</span></button></div>
+    </header>
+    <router-outlet />
+  </div>
+</div>
