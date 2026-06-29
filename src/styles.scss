@@ -36,3 +36,36 @@ body {
   height: 100%;
 }
 /* You can add global styles to this file, and also import other style files */
+
+body.danizz-dark {
+  background:#101624;
+  color:#f6f8fb;
+}
+
+body.danizz-dark .admin-shell {
+  --primary:var(--danizz-primary,#0b57d0);
+  --primary-soft:color-mix(in srgb,var(--primary) 22%,#172033);
+  --bg:#101624;
+  --line:#2c3748;
+  --muted:#aab6c5;
+  color:#f6f8fb;
+}
+
+body:not(.danizz-dark) .admin-shell {
+  --primary:var(--danizz-primary,#0b57d0);
+  --primary-soft:color-mix(in srgb,var(--primary) 13%,#fff);
+}
+
+body.danizz-dark .drawer,
+body.danizz-dark .appbar,
+body.danizz-dark .icon-button,
+body.danizz-dark .profile-button {
+  background:#172033;
+  color:#f6f8fb;
+}
+
+body.danizz-dark .brand,
+body.danizz-dark .drawer-footer,
+body.danizz-dark .appbar {
+  border-color:#2c3748;
+}

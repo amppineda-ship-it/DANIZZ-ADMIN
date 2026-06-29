@@ -1,0 +1,36 @@
+<app-client-sidebar [mobileOpen]="sidebarOpen()" (closeMenu)="sidebarOpen.set(false)" />
+
+<main class="client-page" @pageFade>
+  <header class="page-header">
+    <button mat-icon-button class="menu-toggle" type="button" aria-label="Abrir menu" (click)="sidebarOpen.set(true)">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div>
+      <p>Contáctanos</p>
+      <h1>Estamos aquí</h1>
+      <span>Te atendemos para pedidos, cotizaciones y entregas.</span>
+    </div>
+  </header>
+
+  <section class="two-column">
+    <mat-card class="info-card" appearance="outlined">
+      <h2>Información de contacto</h2>
+      <div class="info-list">
+        <p><mat-icon>location_on</mat-icon><strong>Dirección</strong><span>Quito, Ecuador — Sector Sur</span></p>
+        <p><mat-icon>chat</mat-icon><strong>WhatsApp</strong><span>+593 980674115</span></p>
+        <p><mat-icon>mail</mat-icon><strong>Email</strong><span>danizzservice@gmail.com</span></p>
+        <p><mat-icon>schedule</mat-icon><strong>Horario</strong><span>Lun–Vie: 8:00–17:00 · Sáb: 9:00–15:00</span></p>
+      </div>
+      <button mat-fab extended type="button" (click)="openWhatsApp()">
+        <mat-icon>chat</mat-icon>
+        Abrir WhatsApp
+      </button>
+    </mat-card>
+
+    <mat-card class="map-card" appearance="outlined">
+      <iframe title="Mapa DANIZZ" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=0%C2%B019'50.7%22S%2078%C2%B031'59.0%22W&output=embed"></iframe>
+    </mat-card>
+  </section>
+
+  <app-client-footer />
+</main>

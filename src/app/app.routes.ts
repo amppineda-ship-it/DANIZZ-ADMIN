@@ -8,6 +8,11 @@ export const routes: Routes = [
 
   {
     path: '',
+    loadComponent: () => import('./pages/client-store/client-store').then((m) => m.ClientStoreComponent)
+  },
+
+  {
+    path: 'bienvenida',
     component: IntroComponent
   },
 
@@ -19,6 +24,66 @@ export const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
+  },
+
+  {
+    path: 'categorias/tazas',
+    loadComponent: () => import('./pages/client-store/category-page/category-page').then((m) => m.CategoryPageComponent),
+    data: {
+      category: 'Tazas Personalizadas',
+      title: 'Tazas Personalizadas',
+      subtitle: 'Tazas sublimadas con fotos, ilustraciones, frases y diseños especiales para regalos o marcas.'
+    }
+  },
+
+  {
+    path: 'categorias/camisetas',
+    loadComponent: () => import('./pages/client-store/category-page/category-page').then((m) => m.CategoryPageComponent),
+    data: {
+      category: 'Camisetas del Mundial',
+      title: 'Camisetas del Mundial',
+      subtitle: 'Camisetas deportivas personalizadas con nombre, número y acabados listos para alentar.'
+    }
+  },
+
+  {
+    path: 'categorias/uniformes-futbol',
+    loadComponent: () => import('./pages/client-store/category-page/category-page').then((m) => m.CategoryPageComponent),
+    data: {
+      category: 'Uniformes Completos de Futbol',
+      title: 'Uniformes Completos de Fútbol',
+      subtitle: 'Conjuntos completos para equipos, clubes, academias y torneos con sublimación resistente.'
+    }
+  },
+
+  {
+    path: 'categorias/calentadores',
+    loadComponent: () => import('./pages/client-store/category-page/category-page').then((m) => m.CategoryPageComponent),
+    data: {
+      category: 'Calentadores Personalizados',
+      title: 'Calentadores Personalizados',
+      subtitle: 'Prendas cómodas para entrenamiento, viaje o presentación de equipo con identidad propia.'
+    }
+  },
+
+  {
+    path: 'categorias/promociones',
+    loadComponent: () => import('./pages/client-store/category-page/category-page').then((m) => m.CategoryPageComponent),
+    data: {
+      category: 'Promocionales',
+      title: 'Promociones',
+      subtitle: 'Ofertas y productos promocionales para temporada, regalos empresariales y eventos.'
+    }
+  },
+
+  {
+    path: 'personalizado',
+    loadComponent: () => import('./pages/client-store/custom-order-page/custom-order-page').then((m) => m.CustomOrderPageComponent)
+  },
+
+  {
+    path: 'contacto',
+    loadComponent: () => import('./pages/client-store/contact-page/contact-page').then((m) => m.ContactPageComponent)
   },
 
   {

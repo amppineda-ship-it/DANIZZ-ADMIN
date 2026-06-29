@@ -1,0 +1,59 @@
+<app-client-sidebar [mobileOpen]="sidebarOpen()" (closeMenu)="sidebarOpen.set(false)" />
+
+<main class="client-page" @pageFade>
+  <header class="page-header">
+    <button mat-icon-button class="menu-toggle" type="button" aria-label="Abrir menu" (click)="sidebarOpen.set(true)">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div>
+      <p>Catálogo DANIZZ</p>
+      <h1>{{ title }}</h1>
+      <span>{{ subtitle }}</span>
+    </div>
+    <label class="search">
+      <mat-icon>search</mat-icon>
+      <input type="search" placeholder="Buscar en esta categoría..." [value]="query()" (input)="setSearch($event)">
+    </label>
+  </header>
+
+  <section class="category-grid">
+    @for (product of products(); track product.id) {
+      <mat-card class="product-card" appearance="outlined">
+        <div class="product-media">
+          <img [src]="product.image" [alt]="product.name">
+          @if (product.oldPrice) {
+            <span>Oferta</span>
+          }
+          <div class="spec-overlay">
+            <strong>Especificaciones</strong>
+            @for (spec of product.specs; track spec) {
+              <small>{{ spec }}</small>
+            }
+          </div>
+        </div>
+        <mat-card-content>
+          <small>{{ product.category }}</small>
+          <h2>{{ product.name }}</h2>
+          <p>{{ product.description }}</p>
+          <div class="price">
+            <strong>{{ product.price | currency:'USD' }}</strong>
+            @if (product.oldPrice) {
+              <del>{{ product.oldPrice | currency:'USD' }}</del>
+            }
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <a mat-flat-button routerLink="/personalizado" [queryParams]="{ producto: product.name }">Solicitar</a>
+        </mat-card-actions>
+      </mat-card>
+    } @empty {
+      <div class="empty">
+        <mat-icon>inventory_2</mat-icon>
+        <strong>No hay productos disponibles</strong>
+        <p>Prueba otra búsqueda o revisa las demás categorías.</p>
+      </div>
+    }
+  </section>
+
+  <app-client-footer />
+</main>

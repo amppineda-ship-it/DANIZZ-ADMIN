@@ -1,0 +1,70 @@
+@if (mobileOpen) {
+  <button class="menu-overlay" type="button" aria-label="Cerrar menu" (click)="closeMenu.emit()"></button>
+}
+
+<aside class="client-sidebar" [class.mobile-open]="mobileOpen" aria-label="Menu principal DANIZZ">
+  <a class="brand" routerLink="/" (click)="collapse()" aria-label="Ir al inicio">
+    <img src="assets/Logo.png" alt="DANIZZ">
+    <span>
+      <strong>DANIZZ</strong>
+      <small>DISEÑOS PERSONALIZADOS</small>
+    </span>
+  </a>
+
+  <a class="promo-card" routerLink="/categorias/promociones" (click)="collapse()">
+    <mat-icon>bolt</mat-icon>
+    <span>
+      <strong>Mundial 2026</strong>
+      <small>30% OFF · Ver oferta</small>
+    </span>
+  </a>
+
+  <nav>
+    <a class="nav-row" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapse()">
+      <mat-icon>home</mat-icon>
+      Inicio
+    </a>
+
+    <mat-expansion-panel
+      class="category-panel"
+      [expanded]="categoriesOpen()"
+      (opened)="categoriesOpen.set(true)"
+      (closed)="categoriesOpen.set(false)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>grid_view</mat-icon>
+          Productos
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div class="category-links">
+        @for (item of categories; track item.route) {
+          <a [routerLink]="item.route" routerLinkActive="active-sub" (click)="collapse()">
+            <span>›</span>
+            {{ item.label }}
+            @if (item.badge) {
+              <em [class.new]="item.badge === 'NEW'">{{ item.badge }}</em>
+            }
+          </a>
+        }
+      </div>
+    </mat-expansion-panel>
+
+    <a class="nav-row" routerLink="/personalizado" routerLinkActive="active" (click)="collapse()">
+      <mat-icon>palette</mat-icon>
+      Personalizado
+    </a>
+    <a class="nav-row" routerLink="/contacto" routerLinkActive="active" (click)="collapse()">
+      <mat-icon>phone</mat-icon>
+      Contacto
+    </a>
+  </nav>
+
+  <button class="whatsapp-card" type="button" (click)="openWhatsApp()">
+    <mat-icon>chat</mat-icon>
+    <span>
+      <strong>WhatsApp</strong>
+      <small>+593 980674115</small>
+    </span>
+  </button>
+</aside>

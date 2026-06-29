@@ -1,0 +1,203 @@
+<app-client-sidebar [mobileOpen]="sidebarOpen()" (closeMenu)="sidebarOpen.set(false)" />
+
+<main class="storefront" @pageFade>
+  @if (success()) {
+    <div class="toast" role="status"><mat-icon>check_circle</mat-icon>{{ success() }}</div>
+  }
+
+  <header class="site-header">
+    <button mat-icon-button class="menu-toggle" type="button" aria-label="Abrir menu" (click)="sidebarOpen.set(true)">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <a class="mobile-brand" routerLink="/">
+      <img src="assets/Logo.png" alt="DANIZZ">
+      <span>DANIZZ DISEÑOS PERSONALIZADOS</span>
+    </a>
+
+    <div class="search-area">
+      <label class="search">
+        <mat-icon>search</mat-icon>
+        <input type="search" placeholder="Buscar productos..." [value]="query()" (input)="setSearch($event)">
+      </label>
+      <p>Todo lo bueno empieza con un poco de miedo.</p>
+    </div>
+
+    <button mat-icon-button class="cart-button" type="button" aria-label="Abrir carrito" (click)="cartOpen.set(true)">
+      <mat-icon>shopping_cart</mat-icon>
+      <small>{{ cartCount() }}</small>
+    </button>
+    <a mat-flat-button class="login-button" routerLink="/login">Ingresar</a>
+  </header>
+
+  <section class="hero-carousel" aria-label="Carrusel principal">
+    @for (slide of slides; track slide.title; let i = $index) {
+      <article class="slide" [class.active]="activeSlide() === i">
+        <img [src]="slide.image" [alt]="slide.title">
+        <div class="slide-copy">
+          <span>{{ slide.tag }}</span>
+          <h1>{{ slide.title }}</h1>
+          <p>{{ slide.description }}</p>
+          <button mat-flat-button type="button" (click)="selectCategory(categories[i + 1] || 'Todos')">Comprar ahora</button>
+        </div>
+      </article>
+    }
+
+    <button mat-icon-button class="carousel-arrow prev" type="button" aria-label="Anterior" (click)="previousSlide()">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <button mat-icon-button class="carousel-arrow next" type="button" aria-label="Siguiente" (click)="nextSlide()">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+
+    <div class="indicators">
+      @for (slide of slides; track slide.title; let i = $index) {
+        <button type="button" [class.active]="activeSlide() === i" (click)="goToSlide(i)" [attr.aria-label]="'Ir a ' + slide.title"></button>
+      }
+    </div>
+  </section>
+
+  <section id="productos" class="products-section">
+    <div class="section-title">
+      <div>
+        <p>Catálogo</p>
+        <h2>Productos destacados</h2>
+      </div>
+      <span>{{ filteredProducts().length }} productos</span>
+    </div>
+
+    <div class="category-strip" aria-label="Categorias destacadas">
+      @for (category of categories; track category) {
+        <button type="button" [class.active]="selectedCategory() === category" (click)="selectCategory(category)">
+          {{ category }}
+        </button>
+      }
+    </div>
+
+    <div class="product-grid">
+      @for (product of filteredProducts(); track product.id) {
+        <mat-card class="product-card" appearance="outlined">
+          <div class="product-media">
+            <img [src]="product.image" [alt]="product.name">
+            @if (product.oldPrice) {
+              <span class="discount">Oferta</span>
+            }
+            <div class="spec-overlay">
+              <strong>Especificaciones</strong>
+              @for (spec of product.specs; track spec) {
+                <span>{{ spec }}</span>
+              }
+            </div>
+          </div>
+
+          <mat-card-content>
+            <small>{{ product.category }}</small>
+            <h3>{{ product.name }}</h3>
+            <div class="rating"><mat-icon>star</mat-icon>{{ product.rating }}</div>
+            <div class="price">
+              <strong>{{ product.price | currency:'USD' }}</strong>
+              @if (product.oldPrice) {
+                <del>{{ product.oldPrice | currency:'USD' }}</del>
+              }
+            </div>
+          </mat-card-content>
+
+          <mat-card-actions>
+            <button mat-flat-button type="button" (click)="addToCart(product)">
+              <mat-icon>add_shopping_cart</mat-icon>
+              Agregar
+            </button>
+            <button mat-button type="button" (click)="openDetails(product)">Ver detalles</button>
+          </mat-card-actions>
+        </mat-card>
+      } @empty {
+        <div class="empty">
+          <mat-icon>search_off</mat-icon>
+          <strong>No encontramos productos</strong>
+          <p>Prueba con otra búsqueda o categoría.</p>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="why-section">
+    <div class="section-title">
+      <div>
+        <p>Confianza</p>
+        <h2>Por qué elegir DANIZZ</h2>
+      </div>
+    </div>
+    <div class="why-grid">
+      <article><mat-icon>workspace_premium</mat-icon><h3>Alta calidad</h3><p>Prendas e insumos pensados para durar.</p></article>
+      <article><mat-icon>draw</mat-icon><h3>Diseño personalizado</h3><p>Convertimos tu idea en una pieza lista.</p></article>
+      <article><mat-icon>local_shipping</mat-icon><h3>Entrega rápida</h3><p>Tiempos claros para pedidos urgentes.</p></article>
+      <article><mat-icon>support_agent</mat-icon><h3>Atención directa</h3><p>Acompañamiento desde el boceto.</p></article>
+    </div>
+  </section>
+
+  <app-client-footer />
+</main>
+
+@if (cartOpen()) {
+  <div class="drawer-panel">
+    <button class="overlay" type="button" aria-label="Cerrar carrito" (click)="cartOpen.set(false)"></button>
+    <aside class="cart-drawer">
+      <header>
+        <h3>Carrito</h3>
+        <button mat-icon-button type="button" aria-label="Cerrar" (click)="cartOpen.set(false)"><mat-icon>close</mat-icon></button>
+      </header>
+
+      @if (cart().length) {
+        <div class="cart-list">
+          @for (item of cart(); track item.id) {
+            <article>
+              <img [src]="item.image" [alt]="item.name">
+              <div>
+                <strong>{{ item.name }}</strong>
+                <small>{{ item.quantity }} x {{ item.price | currency:'USD' }}</small>
+              </div>
+              <button mat-icon-button type="button" (click)="removeFromCart(item)"><mat-icon>remove</mat-icon></button>
+            </article>
+          }
+        </div>
+        <footer>
+          <span>Total</span>
+          <strong>{{ cartTotal() | currency:'USD' }}</strong>
+          <a mat-flat-button routerLink="/personalizado" (click)="checkout()">Finalizar pedido</a>
+        </footer>
+      } @else {
+        <div class="empty cart-empty">
+          <mat-icon>shopping_cart</mat-icon>
+          <strong>Tu carrito está vacío</strong>
+          <p>Agrega productos del catálogo para comenzar.</p>
+        </div>
+      }
+    </aside>
+  </div>
+}
+
+@if (selectedProduct(); as product) {
+  <div class="modal-backdrop" (click)="closeDetails()">
+    <section class="detail-modal" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <button mat-icon-button class="close-floating" type="button" aria-label="Cerrar" (click)="closeDetails()"><mat-icon>close</mat-icon></button>
+      <img [src]="product.image" [alt]="product.name">
+      <div>
+        <p class="eyebrow">{{ product.category }}</p>
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.description }}</p>
+        <ul>
+          @for (spec of product.specs; track spec) {
+            <li>{{ spec }}</li>
+          }
+        </ul>
+        <div class="price">
+          <strong>{{ product.price | currency:'USD' }}</strong>
+          @if (product.oldPrice) {
+            <del>{{ product.oldPrice | currency:'USD' }}</del>
+          }
+        </div>
+        <button mat-flat-button type="button" (click)="addToCart(product); closeDetails()">Agregar al carrito</button>
+      </div>
+    </section>
+  </div>
+}

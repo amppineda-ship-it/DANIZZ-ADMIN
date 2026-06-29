@@ -1,0 +1,246 @@
+:host {
+  display: contents;
+}
+
+.client-sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 100;
+  width: 236px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px 14px;
+  background: #fff;
+  border-right: 1px solid #e7e0d8;
+  box-shadow: 8px 0 30px rgba(15, 23, 42, 0.04);
+}
+
+.brand,
+.promo-card,
+.nav-row,
+.category-links a,
+.whatsapp-card {
+  text-decoration: none;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #111827;
+}
+
+.brand img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: #151515;
+}
+
+.brand strong,
+.brand small {
+  display: block;
+}
+
+.brand strong {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.brand small {
+  max-width: 150px;
+  color: #736b63;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.25;
+}
+
+.promo-card {
+  min-height: 58px;
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid #e5d7bd;
+  border-radius: 16px;
+  color: #1f2937;
+  background: #fbf5ec;
+}
+
+.promo-card mat-icon {
+  color: #b47a18;
+  font-size: 20px;
+}
+
+.promo-card strong,
+.whatsapp-card strong {
+  display: block;
+  font-size: 12px;
+}
+
+.promo-card small,
+.whatsapp-card small {
+  color: #6b7280;
+  font-size: 11px;
+}
+
+nav {
+  display: grid;
+  gap: 6px;
+}
+
+.nav-row {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  border-radius: 14px;
+  color: #111827;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.nav-row mat-icon {
+  font-size: 19px;
+}
+
+.nav-row:hover,
+.nav-row.active {
+  color: #fff;
+  background: #171717;
+}
+
+.category-panel {
+  box-shadow: none !important;
+  border-radius: 14px !important;
+  background: transparent;
+}
+
+.category-panel ::ng-deep .mat-expansion-panel-body {
+  padding: 0 0 8px 21px;
+}
+
+.category-panel ::ng-deep .mat-expansion-panel-header {
+  min-height: 42px;
+  height: 42px;
+  padding: 0 12px;
+  border-radius: 14px;
+}
+
+.category-panel ::ng-deep .mat-expansion-panel-header:hover {
+  background: #f3f4f6 !important;
+}
+
+.category-panel mat-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #111827;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.category-panel mat-panel-title mat-icon {
+  font-size: 18px;
+}
+
+.category-links {
+  display: grid;
+  gap: 3px;
+  margin-left: 6px;
+  padding: 6px 0 4px 12px;
+  border-left: 1px solid #e5e7eb;
+}
+
+.category-links a {
+  min-height: 31px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px;
+  border-radius: 9px;
+  color: #4b5563;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.category-links a:hover,
+.category-links a.active-sub {
+  color: #111827;
+  background: #f4f5f7;
+}
+
+.category-links span {
+  color: #9ca3af;
+}
+
+.category-links em {
+  margin-left: auto;
+  padding: 2px 6px;
+  border-radius: 99px;
+  color: #fff;
+  background: #ef174a;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.category-links em.new {
+  background: #00a878;
+}
+
+.whatsapp-card {
+  margin-top: auto;
+  min-height: 58px;
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border: 1px solid #b8efcf;
+  border-radius: 17px;
+  color: #083b20;
+  background: #dcfce7;
+  text-align: left;
+}
+
+.whatsapp-card mat-icon {
+  width: 31px;
+  height: 31px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: #22c55e;
+  font-size: 17px;
+}
+
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 98;
+  display: none;
+  background: rgba(15, 23, 42, 0.45);
+}
+
+@media (max-width: 900px) {
+  .menu-overlay {
+    display: block;
+  }
+
+  .client-sidebar {
+    width: min(86vw, 320px);
+    transform: translateX(-105%);
+    transition: transform 220ms ease;
+    box-shadow: 24px 0 70px rgba(15, 23, 42, 0.18);
+  }
+
+  .client-sidebar.mobile-open {
+    transform: translateX(0);
+  }
+}

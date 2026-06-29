@@ -1,0 +1,126 @@
+<app-client-sidebar [mobileOpen]="sidebarOpen()" (closeMenu)="sidebarOpen.set(false)" />
+
+<main class="client-page" @pageFade>
+  <header class="page-header">
+    <button mat-icon-button class="menu-toggle" type="button" aria-label="Abrir menu" (click)="sidebarOpen.set(true)">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div>
+      <p>Diseño a tu medida</p>
+      <h1>Pedido Personalizado</h1>
+      <span>Cuéntanos tu idea y nuestro equipo la hace realidad.</span>
+    </div>
+  </header>
+
+  <section class="two-column">
+    <mat-card class="form-card" appearance="outlined">
+      @if (sent()) {
+        <div class="success"><mat-icon>check_circle</mat-icon>{{ sent() }}</div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="sendOrder()">
+        <mat-form-field appearance="outline">
+          <mat-label>Tipo de Producto</mat-label>
+          <mat-select formControlName="productType">
+            @for (type of productTypes; track type) {
+              <mat-option [value]="type">{{ type }}</mat-option>
+            }
+          </mat-select>
+          <mat-error>Selecciona un producto.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Cantidad de Unidades</mat-label>
+          <input matInput type="number" min="1" formControlName="quantity">
+          <mat-error>Ingresa una cantidad válida.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="wide">
+          <mat-label>Descripción del Diseño</mat-label>
+          <textarea matInput rows="5" formControlName="description" placeholder="Colores, logos, referencias, tallas..."></textarea>
+          <mat-error>Describe tu idea con al menos 12 caracteres.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre Completo</mat-label>
+          <input matInput formControlName="fullName">
+          <mat-error>Campo obligatorio.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Número Telefónico</mat-label>
+          <span matTextPrefix>+593&nbsp;</span>
+          <input matInput formControlName="phone">
+          <mat-error>Ingresa un teléfono válido.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email">
+          <mat-error>Correo no válido.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Asunto</mat-label>
+          <input matInput formControlName="subject">
+          <mat-error>Campo obligatorio.</mat-error>
+        </mat-form-field>
+
+        <button mat-flat-button type="submit">Enviar pedido</button>
+      </form>
+    </mat-card>
+
+    <aside class="side-panel">
+      <mat-card class="map-card" appearance="outlined">
+        <iframe title="Mapa DANIZZ" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=0%C2%B019'50.7%22S%2078%C2%B031'59.0%22W&output=embed"></iframe>
+        <button mat-button type="button" (click)="openMaps()">Ver ubicación completa</button>
+      </mat-card>
+
+      <mat-card class="reviews-card" appearance="outlined">
+        <header>
+          <div>
+            <p>Reseñas de Clientes</p>
+            <h2>{{ averageRating() | number:'1.1-1' }} / 5</h2>
+          </div>
+          <mat-icon>star</mat-icon>
+        </header>
+
+        <div class="review-list">
+          @for (review of reviews(); track review.name + review.comment) {
+            <article>
+              <strong>{{ review.name }}</strong>
+              <span>
+                @for (star of stars; track star) {
+                  <mat-icon [class.muted]="star > review.rating">star</mat-icon>
+                }
+              </span>
+              <p>{{ review.comment }}</p>
+            </article>
+          }
+        </div>
+
+        <form class="review-form" [formGroup]="reviewForm" (ngSubmit)="addReview()">
+          <mat-form-field appearance="outline">
+            <mat-label>Tu nombre</mat-label>
+            <input matInput formControlName="name">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Calificación</mat-label>
+            <mat-select formControlName="rating">
+              @for (star of stars; track star) {
+                <mat-option [value]="star">{{ star }} estrellas</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="wide">
+            <mat-label>Opinión</mat-label>
+            <textarea matInput rows="3" formControlName="comment"></textarea>
+          </mat-form-field>
+          <button mat-stroked-button type="submit">Publicar reseña</button>
+        </form>
+      </mat-card>
+    </aside>
+  </section>
+
+  <app-client-footer />
+</main>

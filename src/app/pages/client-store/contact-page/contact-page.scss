@@ -1,0 +1,148 @@
+:host {
+  display: block;
+  font-family: Poppins, Roboto, Arial, sans-serif;
+}
+
+.client-page {
+  min-height: 100vh;
+  padding-left: 236px;
+  background: #f7f3ed;
+  color: #161b22;
+}
+
+.page-header,
+.two-column {
+  width: min(1080px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 36px 0 22px;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+.page-header p {
+  margin: 0 0 6px;
+  color: #b88a33;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: clamp(32px, 4.1vw, 48px);
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
+.page-header span {
+  display: block;
+  max-width: 620px;
+  margin-top: 12px;
+  color: #68717d;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.two-column {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 22px;
+  align-items: start;
+}
+
+.info-card,
+.map-card {
+  border-radius: 18px !important;
+  background: #fff;
+}
+
+.info-card {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  padding: 22px;
+}
+
+h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.info-list {
+  display: grid;
+  gap: 12px;
+}
+
+.info-list p {
+  display: grid;
+  grid-template-columns: 42px 110px 1fr;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 14px;
+  border: 1px solid #e8e1d8;
+  border-radius: 14px;
+}
+
+.info-list mat-icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  color: #123d72;
+  background: #e7efff;
+}
+
+.info-list span {
+  color: #68717d;
+  line-height: 1.45;
+}
+
+.info-card button {
+  justify-self: start;
+}
+
+.map-card {
+  overflow: hidden;
+}
+
+iframe {
+  width: 100%;
+  height: 520px;
+  border: 0;
+}
+
+@media (max-width: 900px) {
+  .client-page {
+    padding-left: 0;
+  }
+
+  .page-header,
+  .two-column {
+    width: calc(100% - 28px);
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+  }
+
+  .two-column,
+  .info-list p {
+    grid-template-columns: 1fr;
+  }
+
+  iframe {
+    height: 330px;
+  }
+}

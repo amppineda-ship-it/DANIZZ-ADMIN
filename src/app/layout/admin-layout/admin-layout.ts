@@ -15,17 +15,18 @@ export class AdminLayoutComponent {
   protected readonly pageTitle = signal('Panel administrativo');
   protected readonly pageSection = signal('Dashboard');
 
-  constructor(router: Router) {
+  constructor(private readonly router: Router) {
     const updateTitle = (): void => {
       const item = [...MENU_GROUPS.flatMap((group) => group.items), SETTINGS_ITEM]
-        .find((candidate) => router.url.split('?')[0] === candidate.route);
-      this.pageSection.set(item?.label ?? 'Administración');
-      this.pageTitle.set(item?.label === 'Dashboard' ? 'Panel administrativo' : (item?.label ?? 'Administración'));
+        .find((candidate) => this.router.url.split('?')[0] === candidate.route);
+      this.pageSection.set(item?.label ?? 'Administracion');
+      this.pageTitle.set(item?.label === 'Dashboard' ? 'Panel administrativo' : (item?.label ?? 'Administracion'));
       this.drawerOpen.set(false);
     };
     updateTitle();
-    router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(updateTitle);
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(updateTitle);
   }
 
   protected toggleDrawer(): void { this.drawerOpen.update((open) => !open); }
+  protected logout(): void { this.router.navigateByUrl('/login'); }
 }
