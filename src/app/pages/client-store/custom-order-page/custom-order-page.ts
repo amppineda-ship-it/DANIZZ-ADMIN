@@ -46,6 +46,8 @@ export class CustomOrderPageComponent {
 
   protected readonly sidebarOpen = signal(false);
   protected readonly sent = signal('');
+  protected readonly selectedDocuments = signal<string[]>([]);
+  protected readonly selectedImages = signal<string[]>([]);
   protected readonly reviews = signal<Review[]>([
     { name: 'María C.', rating: 5, comment: 'El uniforme quedó nítido y entregaron a tiempo.' },
     { name: 'Carlos P.', rating: 5, comment: 'Muy buena atención para definir colores y tallas.' },
@@ -57,7 +59,7 @@ export class CustomOrderPageComponent {
   protected readonly form = this.fb.group({
     productType: [this.route.snapshot.queryParamMap.get('producto') || '', Validators.required],
     quantity: [1, [Validators.required, Validators.min(1)]],
-    description: ['', [Validators.required, Validators.minLength(12), Validators.maxLength(700)]],
+    description: ['', [Validators.required, Validators.minLength(12), Validators.maxLength(3000)]],
     fullName: ['', [Validators.required, Validators.maxLength(80)]],
     phone: ['', [Validators.required, Validators.pattern(/^[0-9\s-]{7,16}$/)]],
     email: ['', [Validators.required, Validators.email]],
@@ -83,6 +85,19 @@ export class CustomOrderPageComponent {
 
     this.sent.set('Pedido enviado correctamente. Te contactaremos por WhatsApp o correo.');
     this.form.reset({ productType: '', quantity: 1, description: '', fullName: '', phone: '', email: '', subject: '' });
+    this.selectedDocuments.set([]);
+    this.selectedImages.set([]);
+  }
+
+  protected setFiles(event: Event, type: 'documents' | 'images'): void {
+    const files = Array.from((event.target as HTMLInputElement).files ?? []).map((file) => file.name);
+
+    if (type === 'documents') {
+      this.selectedDocuments.set(files);
+      return;
+    }
+
+    this.selectedImages.set(files);
   }
 
   protected addReview(): void {

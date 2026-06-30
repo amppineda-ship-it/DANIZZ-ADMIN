@@ -3,12 +3,21 @@ import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { ClientFooterComponent } from './components/client-footer/client-footer';
 import { ClientSidebarComponent } from './components/client-sidebar/client-sidebar';
 import { pageFade } from './client-animations';
-import { CartItem, PRODUCT_CATEGORIES, PRODUCTS, Product, SLIDES } from './catalog-data';
+import {
+  CartItem,
+  CATEGORY_LINKS,
+  FEATURED_PRODUCTS,
+  PRODUCT_CATEGORIES,
+  PRODUCTS,
+  Product,
+  SLIDES,
+  uniqueProductsByImage,
+} from './catalog-data';
 
 @Component({
   selector: 'app-client-store',
@@ -27,7 +36,10 @@ import { CartItem, PRODUCT_CATEGORIES, PRODUCTS, Product, SLIDES } from './catal
   animations: [pageFade],
 })
 export class ClientStoreComponent implements OnInit, OnDestroy {
+  private static readonly promoSeenKey = 'danizz-world-cup-promo-seen';
+
   private readonly document = inject(DOCUMENT);
+  private readonly router = inject(Router);
   private timer: ReturnType<typeof setInterval> | null = null;
 
   protected readonly query = signal('');
@@ -35,6 +47,7 @@ export class ClientStoreComponent implements OnInit, OnDestroy {
   protected readonly activeSlide = signal(0);
   protected readonly sidebarOpen = signal(false);
   protected readonly cartOpen = signal(false);
+  protected readonly promoOpen = signal(false);
   protected readonly selectedProduct = signal<Product | null>(null);
   protected readonly cart = signal<CartItem[]>([]);
   protected readonly success = signal('');
@@ -43,17 +56,20 @@ export class ClientStoreComponent implements OnInit, OnDestroy {
   protected readonly categories = PRODUCT_CATEGORIES;
   protected readonly products = PRODUCTS;
 
-  protected readonly filteredProducts = computed(() => {
+  protected readonly displayedProducts = computed(() => {
     const text = this.query().trim().toLowerCase();
     const category = this.selectedCategory();
+    const source = !text && category === 'Todos' ? FEATURED_PRODUCTS : PRODUCTS;
 
-    return this.products.filter((product) => {
+    const matches = source.filter((product) => {
       const matchesText =
         !text ||
         `${product.name} ${product.category} ${product.description}`.toLowerCase().includes(text);
       const matchesCategory = category === 'Todos' || product.category === category;
       return matchesText && matchesCategory;
     });
+
+    return uniqueProductsByImage(matches).slice(0, 9);
   });
 
   protected readonly cartCount = computed(() => this.cart().reduce((total, item) => total + item.quantity, 0));
@@ -61,6 +77,13 @@ export class ClientStoreComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.timer = setInterval(() => this.nextSlide(), 5200);
+
+    if (!this.hasSeenPromo()) {
+      setTimeout(() => {
+        this.promoOpen.set(true);
+        this.markPromoSeen();
+      }, 450);
+    }
   }
 
   ngOnDestroy(): void {
@@ -69,6 +92,36 @@ export class ClientStoreComponent implements OnInit, OnDestroy {
 
   protected setSearch(event: Event): void {
     this.query.set((event.target as HTMLInputElement).value);
+  }
+
+  protected submitSearch(): void {
+    const value = this.query().trim();
+    const text = this.normalize(value);
+
+    if (!text) {
+      this.selectedCategory.set('Todos');
+      this.document.getElementById('productos')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+
+    const categoryMatch = CATEGORY_LINKS.find((item) =>
+      this.normalize(`${item.label} ${item.category}`).includes(text),
+    );
+    const productMatch = PRODUCTS.find((product) =>
+      this.normalize(
+        `${product.name} ${product.category} ${product.description} ${product.specs.join(' ')}`,
+      ).includes(text),
+    );
+    const productCategoryRoute = CATEGORY_LINKS.find((item) => item.category === productMatch?.category);
+    const target = categoryMatch ?? productCategoryRoute;
+
+    if (target) {
+      this.router.navigate([target.route], { queryParams: { q: value } });
+      return;
+    }
+
+    this.selectedCategory.set('Todos');
+    this.document.getElementById('productos')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   protected selectCategory(category: string): void {
@@ -114,6 +167,11 @@ export class ClientStoreComponent implements OnInit, OnDestroy {
     this.selectedProduct.set(null);
   }
 
+  protected closePromo(): void {
+    this.promoOpen.set(false);
+    this.markPromoSeen();
+  }
+
   protected checkout(): void {
     this.cartOpen.set(false);
     this.showSuccess('Pedido preparado. Completa los datos en Pedido Personalizado.');
@@ -122,5 +180,20 @@ export class ClientStoreComponent implements OnInit, OnDestroy {
   private showSuccess(message: string): void {
     this.success.set(message);
     setTimeout(() => this.success.set(''), 2600);
+  }
+
+  private normalize(value: string): string {
+    return value
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+  }
+
+  private hasSeenPromo(): boolean {
+    return this.document.defaultView?.sessionStorage?.getItem(ClientStoreComponent.promoSeenKey) === 'true';
+  }
+
+  private markPromoSeen(): void {
+    this.document.defaultView?.sessionStorage?.setItem(ClientStoreComponent.promoSeenKey, 'true');
   }
 }

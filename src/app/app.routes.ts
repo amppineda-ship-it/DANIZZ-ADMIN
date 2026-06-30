@@ -67,16 +67,6 @@ export const routes: Routes = [
   },
 
   {
-    path: 'categorias/promociones',
-    loadComponent: () => import('./pages/client-store/category-page/category-page').then((m) => m.CategoryPageComponent),
-    data: {
-      category: 'Promocionales',
-      title: 'Promociones',
-      subtitle: 'Ofertas y productos promocionales para temporada, regalos empresariales y eventos.'
-    }
-  },
-
-  {
     path: 'personalizado',
     loadComponent: () => import('./pages/client-store/custom-order-page/custom-order-page').then((m) => m.CustomOrderPageComponent)
   },

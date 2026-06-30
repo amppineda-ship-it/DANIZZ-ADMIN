@@ -6,9 +6,8 @@
       <mat-icon>menu</mat-icon>
     </button>
     <div>
-      <p>Diseño a tu medida</p>
       <h1>Pedido Personalizado</h1>
-      <span>Cuéntanos tu idea y nuestro equipo la hace realidad.</span>
+      <span>Cuentanos tu idea y nuestro equipo la hace realidad.</span>
     </div>
   </header>
 
@@ -21,7 +20,7 @@
       <form [formGroup]="form" (ngSubmit)="sendOrder()">
         <mat-form-field appearance="outline">
           <mat-label>Tipo de Producto</mat-label>
-          <mat-select formControlName="productType">
+          <mat-select formControlName="productType" placeholder="Seleccionar...">
             @for (type of productTypes; track type) {
               <mat-option [value]="type">{{ type }}</mat-option>
             }
@@ -31,69 +30,92 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Cantidad de Unidades</mat-label>
-          <input matInput type="number" min="1" formControlName="quantity">
-          <mat-error>Ingresa una cantidad válida.</mat-error>
+          <input matInput type="number" min="1" formControlName="quantity" placeholder="Ej: 20 unidades">
+          <mat-error>Ingresa una cantidad valida.</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="wide">
-          <mat-label>Descripción del Diseño</mat-label>
-          <textarea matInput rows="5" formControlName="description" placeholder="Colores, logos, referencias, tallas..."></textarea>
+          <mat-label>Descripcion del Diseno</mat-label>
+          <textarea matInput rows="3" formControlName="description" placeholder="Describe tu diseno: colores, texto, logos, imagenes de referencia..."></textarea>
           <mat-error>Describe tu idea con al menos 12 caracteres.</mat-error>
         </mat-form-field>
 
+        <div class="upload-row wide">
+          <label class="upload-chip">
+            <mat-icon>description</mat-icon>
+            Documentos
+            <input type="file" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" (change)="setFiles($event, 'documents')">
+          </label>
+          <label class="upload-chip">
+            <mat-icon>image</mat-icon>
+            Imagenes
+            <input type="file" multiple accept="image/*" (change)="setFiles($event, 'images')">
+          </label>
+          <span>{{ selectedDocuments().length + selectedImages().length }} archivos cargados</span>
+        </div>
+
         <mat-form-field appearance="outline">
           <mat-label>Nombre Completo</mat-label>
-          <input matInput formControlName="fullName">
+          <input matInput formControlName="fullName" placeholder="Tu nombre">
           <mat-error>Campo obligatorio.</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Número Telefónico</mat-label>
+          <mat-label>Numero Telefonico</mat-label>
           <span matTextPrefix>+593&nbsp;</span>
-          <input matInput formControlName="phone">
-          <mat-error>Ingresa un teléfono válido.</mat-error>
+          <input matInput formControlName="phone" placeholder="...">
+          <mat-error>Ingresa un telefono valido.</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
-          <input matInput type="email" formControlName="email">
-          <mat-error>Correo no válido.</mat-error>
+          <input matInput type="email" formControlName="email" placeholder="correo@ejemplo.com">
+          <mat-error>Correo no valido.</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Asunto</mat-label>
-          <input matInput formControlName="subject">
+          <input matInput formControlName="subject" placeholder="Motivo del pedido">
           <mat-error>Campo obligatorio.</mat-error>
         </mat-form-field>
 
-        <button mat-flat-button type="submit">Enviar pedido</button>
+        <button mat-flat-button type="submit"><mat-icon>send</mat-icon>Enviar Pedido Personalizado</button>
       </form>
     </mat-card>
 
     <aside class="side-panel">
       <mat-card class="map-card" appearance="outlined">
+        <header><mat-icon>location_on</mat-icon><strong>Nuestra Ubicacion</strong></header>
         <iframe title="Mapa DANIZZ" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=0%C2%B019'50.7%22S%2078%C2%B031'59.0%22W&output=embed"></iframe>
-        <button mat-button type="button" (click)="openMaps()">Ver ubicación completa</button>
+        <div class="map-details">
+          <p><mat-icon>location_on</mat-icon>Quito, Ecuador - Sector Norte</p>
+          <p><mat-icon>schedule</mat-icon>Lun-Vie: 8:00-18:00 - Sab: 9:00-14:00</p>
+          <p><mat-icon>phone</mat-icon>+593 9864532</p>
+        </div>
       </mat-card>
 
       <mat-card class="reviews-card" appearance="outlined">
         <header>
-          <div>
-            <p>Reseñas de Clientes</p>
-            <h2>{{ averageRating() | number:'1.1-1' }} / 5</h2>
-          </div>
-          <mat-icon>star</mat-icon>
+          <strong><mat-icon>star</mat-icon>Resenas Verificadas</strong>
+          <div class="review-arrows"><mat-icon>chevron_left</mat-icon><mat-icon>chevron_right</mat-icon></div>
         </header>
+
+        <div class="review-hero">
+          <img src="assets/danizz-uniforme-brasil-cristo.png" alt="Clientes con uniformes personalizados">
+          <div>
+            <p>{{ averageRating() | number:'1.1-1' }} / 5</p>
+            <span>
+              @for (star of stars; track star) {
+                <mat-icon>star</mat-icon>
+              }
+            </span>
+          </div>
+        </div>
 
         <div class="review-list">
           @for (review of reviews(); track review.name + review.comment) {
             <article>
               <strong>{{ review.name }}</strong>
-              <span>
-                @for (star of stars; track star) {
-                  <mat-icon [class.muted]="star > review.rating">star</mat-icon>
-                }
-              </span>
               <p>{{ review.comment }}</p>
             </article>
           }
@@ -105,7 +127,7 @@
             <input matInput formControlName="name">
           </mat-form-field>
           <mat-form-field appearance="outline">
-            <mat-label>Calificación</mat-label>
+            <mat-label>Calificacion</mat-label>
             <mat-select formControlName="rating">
               @for (star of stars; track star) {
                 <mat-option [value]="star">{{ star }} estrellas</mat-option>
@@ -113,10 +135,10 @@
             </mat-select>
           </mat-form-field>
           <mat-form-field appearance="outline" class="wide">
-            <mat-label>Opinión</mat-label>
-            <textarea matInput rows="3" formControlName="comment"></textarea>
+            <mat-label>Opinion</mat-label>
+            <textarea matInput rows="2" formControlName="comment"></textarea>
           </mat-form-field>
-          <button mat-stroked-button type="submit">Publicar reseña</button>
+          <button mat-stroked-button type="submit">Publicar resena</button>
         </form>
       </mat-card>
     </aside>
